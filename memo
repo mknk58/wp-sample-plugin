@@ -1,0 +1,34 @@
+①サンプル登録のスタイルとか形作り（11/15）
+post.php 
+・テーブルを作る
+・tableのclass にclass="form-table"をいれる。
+・inputのclassにregular-text , large-text をいれた。←←なんか枠が大きくなる！
+・<p class="description">　をいれた　←←字が斜体になって薄くなった感！
+
+
+・submit_button(); wpの関数
+
+・ひとつひとつに名前をつけるname
+ ラジオボタンは同じ名前をつける（name="sample-how-display"）　←←排他的！
+ ドロップダウンネーム
+ 例）
+ $html .= '<tr>';
+ $html .= '<th>表示するカテゴリ (必須)</th>';
+ $html .= '<td>';
+ 
+ echo $html;
+ 
+ $args = array(
+	 'name'         => 'sample-display-category',
+	 'hierarchical' => 1
+ );
+ 
+ wp_dropdown_categories( $args );
+ 
+ $html  = '<p class="description">選択したカテゴリーが投稿に紐づいている場合のみ画像が表示されます。</p>';
+ $html .= '</td>';
+ $html .= '</tr>';
+ 
+ ・Ajax ... Asynchronous Java Script + XML 
+ 詳しくは、てらこや〜〜 https://www.terakoya.work/media-view-ajax-window/
+ 
