@@ -71,7 +71,117 @@ public function __construct() {
 	$this->page_render();
 }
 
- 
+
+（１２/０４）
+/**
+* Insert Post.
+*
+* @version 1.0.0
+* @since   1.0.0
+* @param   array $post
+*/
+public function insert_options( array $post ){
+	global $wpdb;
+		
+		$data = array(
+			'image_url'     => $post['sample-image-url'],
+			'register_date' => date( 'Y-m-d H:i:s' ),
+			'update_date'   => date( 'Y-m-d H:i:s' )
+		);
+		
+		$prepared = array(
+			'%s',
+			'%s',
+			'%s'
+		);
+		
+		$wpdb->insert( $this->table_name, $data, $prepared );
+		return $wpdb->insert_id;
+	}
+}
+
+・更新、、？フィールドの追加？した。 
+・フィールドの追加完成版↓
+/**
+* Insert Post.
+*
+* @version 1.0.0
+* @since   1.0.0
+* @param   array $post
+*/
+public function insert_options( array $post ){
+	global $wpdb;
+		
+		$data = array(
+			'image_url'            => $post['sample-image-url'],
+			'image_alt'            => $post['sample-image-alt'],
+			'link_url'             => $post['sample-image-link'],
+			'open_new_tab'         => $post['sample-image-target'],
+			'insert_element_class' => $post['sample-element-class'],
+			'insert_element_id'    => $post['sample-element-id'],
+			'how_display'          => $post['sample-how-display'],
+			'filter_category'      => $post['sample-filter-category'],
+			'category_id'          => $post['sample-display-category'],
+			'register_date'        => date( 'Y-m-d H:i:s' ),
+			'update_date'          => date( 'Y-m-d H:i:s' )
+		);
+		
+		$prepared = array(
+			'%s',
+			'%s',
+			'%s',
+			'%d',
+			'%s',
+			'%s',
+			'%s',
+			'%d',
+			'%d',
+			'%s',
+			'%s'
+		);
+		
+		
+　・list.php で、サンプル一覧の、サンプル登録ありませんを更新して、あったらテーブルで出るようにした。
+/**
+* Rendaring Page
+*
+* @version 1.0.0
+* @since 1.0.0
+*/
+private function page_render( $db ){
+	$html  = '<div class="wrap">';
+	$html .= '<h1 class="wp-heading-inline">サンプル一覧</h1>';
+	$html .= '<a href="" class="page-title-action">新規追加</a>';
+	$html .= '<table>';
+	$html .= '<tr>';
+	$html .= '<th>画像</th>';
+	$html .= '<th>画像ALT属性</th>';
+	$html .= '<th>表示方法</th>';
+	$html .= '<th>絞り込み</th>';
+	$html .= '</tr>';
+	
+	$results = $db->get_list_options();
+	
+	if ( $results ) {
+		foreach( $results as $row ){
+			$html .= '<tr>';
+			$html .= '<td>' . $row->image_url . '</td>';
+			$html .= '<td>' . $row->image_alt . '</td>';
+			$html .= '<td>' . $row->how_display . '</td>';
+			$html .= '<td>' . $row->filter_category . '</td>';
+			$html .= '</tr>';
+		}
+	} else{
+		$html .= '<tr>';
+		$html .= '<td colspan="4">登録はありません</td>';
+		$html .= '</tr>';	
+	}
+
+	$html .= '</table>';
+	$html .= '</div>';
+	echo $html;
+}
+}
  
  
  
