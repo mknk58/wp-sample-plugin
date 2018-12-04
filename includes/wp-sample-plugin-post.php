@@ -43,12 +43,12 @@ class Sample_Plugin_Post{
 		$html .= '<tr>';
 		$html .= '<th>画像のURL(必須)</th>';
 		$html .= '<td><img id="banner-image-view" src="' . plugins_url('../images/no-image.png', __FILE__ ) . '" width="200px">';
-		$html .= '<input id="banner-image-url" type="text" class="large-text" name="sample-image-url">';
+		$html .= '<input id="banner-image-url" type="text" class="large-text" name="sample-image-url" required>';
 		$html .= '<button id="media-upload" class="button">画像を選択</button></td>';
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
-		$html .= '<th>画像 Alt属性 (必須)</th>';
+		$html .= '<th>画像 Alt属性</th>';
 		$html .= '<td><input id="banner-image-alt" type="text" class="regular-text" name="sample-image-alt"><p class="description">alt属性のテキストを入力します。</p></td>';
 		$html .= '</tr>';
 		
@@ -71,7 +71,7 @@ class Sample_Plugin_Post{
 		
 		$html .= '<tr>';
 		$html .= '<th>ID名</th>';
-		$html .= '<td><input type="text" class="regular-text"><p class="description" name="sample-element-id">バナー画像にIDを追加することができます。「id=""」は不要です。</p></td>';
+		$html .= '<td><input type="text" class="regular-text" name="sample-element-id"><p class="description">バナー画像にIDを追加することができます。「id=""」は不要です。</p></td>';
 		$html .= '</tr>';
 		
 		$html .= '</table>';
@@ -80,8 +80,8 @@ class Sample_Plugin_Post{
 		$html .= '<table class="form-table">';
 		$html .= '<tr>';
 		$html .= '<th>表示方法 (必須)</th>';
-		$html .= '<td><input type="radio" name="sample-how-display">記事の下に表示<br>';
-		$html .= '<input type="radio" name="sample-how-display">ショートコードで表示';
+		$html .= '<td><input type="radio" name="sample-how-display" value="post_bottom">記事の下に表示<br>';
+		$html .= '<input type="radio" name="sample-how-display" value="shortcode">ショートコードで表示';
 		$html .= '</td>';
 		$html .= '</tr>';
 		
