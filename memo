@@ -184,8 +184,49 @@ private function page_render( $db ){
 }
  
  
+ 12/11
  
+・post.php
+・CRUD処理のCとR
+・↓①〜③下のvalueの横に 変数$ をいれる
+①
+if( $args->open_new_tab === "1" ) {
+	$open_new_tab_checked = ' checked ';
+}else{
+	$open_new_tab_checked = '';
+}
+・チェックボックスに値”１”が入ってたらチェックをいれておく
  
+②
+if ( isset( $args->image_url ) ) {
+		$image_src = $args->image_url;
+	} else {
+		$image_src = plugins_url('../images/no-image.png', __FILE__ );
+	}
+・イメージ画像が入っていたら出す、なかったらnoimage画像のif文
+③
+$how_display_checked = array('', '');
+switch ( $args->how_display ) {
+	case 'post_bottom':
+		$how_display_checked[0] = 'checked';
+		break;
+	case 'shortcode':
+		$how_display_checked[1] = 'checked';
+		break;
+	default;
+		break;
+}
+・ラジオボタンにチェックを入れる判断
+
+④
+・表示するカテゴリの分類を表示する。
+$param = array(
+	'name'         => 'sample-display-category',
+	'hierarchical' => 1,
+	'selected'     => $args->category_id
+);
+
+wp_dropdown_categories( $param );
  
  
  
