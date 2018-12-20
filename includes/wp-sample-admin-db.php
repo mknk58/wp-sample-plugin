@@ -182,30 +182,9 @@ class Sample_Plugin_Admin_Db{
 	public function delete_options( $id ){
 		global $wpdb;
 			
-
-			
-			$key = array( 'id' -> $id );
-			$key_prepared = array( '%d' );
-			
-			$wpdb->update( $this->table_name, $key, $key_prepared );
-		}
+		$key = array( 'id' => $id );
+		$key_prepared = array( '%d' );
+		
+		$wpdb->delete( $this->table_name, $key, $key_prepared );
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
+}
