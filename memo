@@ -288,16 +288,52 @@ public function update_options( array $post ){
 public function delete_options( $id ){
 	global $wpdb;
 		
+	$key = array( 'id' => $id );
+	$key_prepared = array( '%d' );
+	
+	$wpdb->delete( $this->table_name, $key, $key_prepared );
+}
 
-		
-		$key = array( 'id' -> $id );
-		$key_prepared = array( '%d' );
-		
-		$wpdb->update( $this->table_name, $key, $key_prepared );
+ (12/20)
+ ①削除の追加→list.phpに書き込む
+ ・?○○＝○○＆○○（ID）＝○○＆○○(mode)＝○○(delete)　　・・・QueryString ()の中は例
+ 
+ ・Information Message Render をlist.phpに書き込む
+ 
+ 	/**
+ 	* Information Message Render
+ 	*
+ 	* @version 1.0.0
+ 	* @since 1.0.0
+ 	*/
+ 	private function information_render(){
+ 		$html  = '<div id="message" class="updated notice-success is-dismissible blow-h2">';
+ 		$html .= '<p>削除されました。(^^)</p>';
+ 		$html .= '<button type="button" class="notice-dismiss"></button>';
+ 		$html .= '</div>';
+ 		
+ 		echo $html;
+ 	}
+	
+	
+	
+	・Constructorにいれる。条件式も一緒にね！
+　　これで削除のときだけ削除の画像がでるようになる。
+
+	if ( isset( $_GET[ 'mode' ] ) && $_GET[ 'mode' ] ==='delete' ) {
+	$this->information_render();
 	}
-
+	
+	
  
+ ・さらにそこに条件式を付け加えます。
  
+ if ( isset( $_GET[ 'mode' ] ) && $_GET[ 'mode' ] === 'delete' ) {
+	 if ( isset( $_GET[ 'id' ] ) && is_numeric($_GET[ 'id' ] ) ) {
+		 $db->delete_options( $_GET[ 'id' ] );
+		 $this->information_render();
+	 }
+ }
  
  
  
