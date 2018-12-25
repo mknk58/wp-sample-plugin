@@ -335,10 +335,50 @@ public function delete_options( $id ){
 	 }
  }
  
- 
- 
- 
- 
+ (12/25)
+ ①update処理。
+ ・オブジェクトと配列表し方
+	　$a = array("id" => 10);  →配列
+	　$b = {id : 10}　　　　　　　→オブジェクト
+  													$a["id"]
+														$b->id
+
+・post.phpにて
+$options = array_merge( $options, $args );を最終的にかいて、更新される過程をかきたい〜
+↓
+
+$options = array(
+	'id'                   => '',
+	'image_url'            => '',
+	'image_alt'            => '',
+	'link_url'             => '',
+	'open_new_tab'         => 0,
+	'insert_element_class' => '',
+	'insert_element_id'    => '',
+	'how_display'          => 'post_bottom',
+	'filter_category'      => '',
+	'category_id'          => 0
+);
+
+if ( isset( $_GET['id'] ) && is_numeric( $_GET['id'] ) ) {
+	$options['id'] = $_GET['id'];
+}
+
+
+if ( isset( $_POST['sample_id'] ) && is_numeric( $_POST['sample_id'] ) ) {
+	$db->update_options( $_POST );
+	$options['id'] = $_POST['sample_id'];
+} else {
+	if ( isset( $_POST['sample_id'] ) && $_POST['sample_id'] === '' ) {
+		var_dump($_POST);
+		$optioms['id'] = $db->insert_options( $_POST );
+	}
+}
+$args = $db->get_option( $options['id'] );
+$options = array_merge( $options, $args );
+var_dump($options);
+$this->page_render( $options );
+}
  
  
  

@@ -61,15 +61,15 @@ class Sample_Plugin_Admin_Db{
 	*
 	* @version 1.0.0
 	* @since   1.0.0
-	* @param    integer $id
-	* @return array
+	* @param   integer $id
+	* @return  array
 	*/
 	public function get_option( $id ){
 		global $wpdb;
 		$query    = 'SELECT * FROM ' .$this->table_name . ' WHERE id = %d ';
 		$data     = array( $id );
 		$prepared = $wpdb->prepare( $query, $data );
-		return $wpdb->get_row( $prepared );
+		return (array) $wpdb->get_row( $prepared );
 	}
 	
 	
@@ -153,7 +153,7 @@ class Sample_Plugin_Admin_Db{
 				'update_date'          => date( 'Y-m-d H:i:s' )
 			);
 			
-			$key = array( 'id' -> $post['sample_id'] );
+			$key = array( 'id' => $post['sample_id'] );
 			
 			$prepared = array(
 				'%s',
