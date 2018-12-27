@@ -20,8 +20,13 @@ class Sample_Plugin {
 	*/
 	public function __construct() {
 		register_activation_hook(__FILE__, array( $this, 'create_table' ) );
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		
+		if ( is_admin() ) {
+			add_action( 'admin_init', array( $this, 'admin_init' ) );
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		} else {
+			add_action( 'the_content', array( $this , 'the_content') );
+		}
 	}
 	/**
 	* Create Table.
@@ -120,6 +125,46 @@ class Sample_Plugin {
 */
 public function add_scripts(){
 	wp_enqueue_media();
+	}
+	
+/**
+* Content add plugin.
+*
+* @version 1.0.0
+* @since   1.0.0
+* @param   string $content
+* @return  string $content
+*/
+public function the_content( $content ) {
+		$html = '';
+		if ( is_single() ) {
+		$html = $this->create_data();
+		}
+		return $content . $html;
+	}
+	
+/**
+* Plugin　data format.
+*
+* @version 1.0.0
+* @since   1.0.0
+*/
+	
+public function create_data() {
+	$db = new Sample_Plugin_Admin_Db();
+	
+	$args = $db->get_list_options();
+	
+	
+	$html = '';
+	foreach($args as $row){
+	
+	$html .= '<a href="' . $row->link_url . '">';
+	$html .= '<img src="' . $row->image_url . '" alt="' . $row->image_alt . '">';
+	$html .= '</a>';
+	
+}
+		return $html;
 	}
 
 }
