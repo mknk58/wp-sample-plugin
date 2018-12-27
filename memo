@@ -380,8 +380,72 @@ var_dump($options);
 $this->page_render( $options );
 }
  
+ 12/27
+ ・仕上げ
+ ・wp-sample-plugin本体にて
+ ①contentを追加。その中に、下の画像表示の関数を入れ込んで、画像表示をさせる。
+ /**
+ * Content add plugin.
+ *
+ * @version 1.0.0
+ * @since   1.0.0
+ * @param   string $content
+ * @return  string $content
+ */
+ public function the_content( $content ) {
+ 		$html = $this->create_data();
+ 		return $content . $html;
+ 	}
+ 	
+ /**
+ * Plugin　data format.
+ *
+ * @version 1.0.0
+ * @since   1.0.0
+ */
+ 	
+ public function create_data() {
+ 	
+ 	$html  = '<a href="">';
+ 	$html .= '<img src="" alt="aaaa">';
+ 	$html .= '</a>';
+ 	
+ 		return $html;
+ 	}
  
+ ②画像の配列を繰り返す・・・foreach
+ 　下の方を書き換え。
+ /**
+ * Plugin　data format.
+ *
+ * @version 1.0.0
+ * @since   1.0.0
+ */
+ 	
+ public function create_data() {
+ 	$db = new Sample_Plugin_Admin_Db();
+ 	
+ 	$args = $db->get_list_options();
+ 	
+ 	$html = '';
+ 	foreach($args as $row){
+ 	
+ 	$html .= '<a href="' . $row->link_url . '">';
+ 	$html .= '<img src="' . $row->image_url . '" alt="' . $row->image_alt . '">';
+ 	$html .= '</a>';
+ 	
+ }
+ 		return $html;
+ 	}
  
+ ③上の方にsingleを追加
+ public function the_content( $content ) {
+ 		$html = '';
+ 		if ( is_single() ) {
+ 		$html = $this->create_data();
+ 		}
+ 		return $content . $html;
+ 	}
  
  
  
